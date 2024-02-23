@@ -1,0 +1,14 @@
+1. replaced db env & mail env variables --dev
+2. replaced interested service dropdown with checkboxes in "/contact" route
+3. changed admin email in webcontroller --dev
+4. added perfect validation for all fields in form of "/contact" route and scrolls into error view if validation fails
+5. scrolls into success message for successful form submission in "/contact" route
+6. sends email to admin for successful submission with all details in a neat template in form of "/contact" route
+7. removed contact no beside form in "/contact" route
+8. removed gap after the footer in "/contact" route
+9. removed mobile number from header black bar
+10. added linkedin url for linkedin icon , onclick on this icon the linkedin page will open in new tab
+11. changed email from operations to consulting beside form in "/contact" route
+12. changed email from operations to consulting in header black bar
+13. added please wait loader after submitting form in "/cotact" route
+14. changed placeholder for attachment links section with given placeholder in "/contacts" route

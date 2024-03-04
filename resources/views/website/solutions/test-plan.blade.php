@@ -147,6 +147,6 @@
         Contact us now to discuss your specific requirements and let us help you achieve software perfection!
     </p>
     <br />
-    <a class="btn animated-rp-btn animated-rp-btn-secondary">Get in touch</a>
+    <a class="btn animated-rp-btn animated-rp-btn-secondary"  href="{{ route('website.forms.solution-form') }}">Connect with us</a>
 </div>
 @endsection

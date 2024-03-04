@@ -175,6 +175,6 @@
                 action now and partner with RSTek to unlock the full potential of your APIs through our comprehensive
                 API Testing services.</p>
             <br />
-            <a class="btn animated-rp-btn animated-rp-btn-secondary">Contact us now</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.forms.solution-form') }}">Connect with us</a>
         </div>
 @endsection

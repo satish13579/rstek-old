@@ -14,6 +14,8 @@ use App\Models\Marketing;
 use App\Models\Hiring;
 use App\Mail\ContactFormMail;
 use App\Mail\solutionFormAdmin;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 class WebsiteController extends Controller
 {
@@ -63,40 +65,62 @@ class WebsiteController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        // If validation passes, get the validated data
-        $validatedData = $validator->validated();
+        $recaptcha_response = $request->input('g-recaptcha-response');
 
-        $contact = new Contact();
-        $contact->name = $validatedData['full_name'];
-        $contact->email = $validatedData['email'];
-        $contact->company_name = $validatedData['company'];
-        $contact->title = $validatedData['title'];
-        $contact->ph_no = $validatedData['phone_number'];
-        $contact->interested_services = implode(",", $validatedData['interested_services']);
-        $contact->attachment_links = $validatedData['attachment_link'];
-        $contact->message = $validatedData['message'];
+        if (is_null($recaptcha_response)) {
+            return redirect()->back()->with('gcaptcha', 'Please Complete the Recaptcha to proceed')->withInput();
+        }
 
-        $mailData["name"] = $validatedData['full_name'];
-        $mailData["type"] = "contact";
-        $mailData["subject"] = "We've Received Your Inquiry at RS TekSolutions";
+        $url = "https://www.google.com/recaptcha/api/siteverify";
 
-        $mailSent = Mail::to($validatedData['email'])
-            ->send(new ContactFormMail($mailData));
+        $body = [
+            'secret' => config('services.recaptcha.secret'),
+            'response' => $recaptcha_response,
+            'remoteip' => IpUtils::anonymize($request->ip()) //anonymize the ip to be GDPR compliant. Otherwise just pass the default ip address
+        ];
 
-        $mailSent2 = Mail::to($this->bccEmail)->send(new ContactAdminSubmission($validatedData));
+        $response = Http::asForm()->post($url, $body);
 
-        if ($mailSent && $mailSent2) {
-            if ($contact->save()) {
-                return redirect()->route('website.contact')
-                    ->with('success', "Thank you for reaching out! Your message is on its way to our team. We're excited to connect and will be in touch shortly");
+        $result = json_decode($response);
+
+        if ($response->successful() && $result->success == true) {
+            // If validation passes, get the validated data
+            $validatedData = $validator->validated();
+
+            $contact = new Contact();
+            $contact->name = $validatedData['full_name'];
+            $contact->email = $validatedData['email'];
+            $contact->company_name = $validatedData['company'];
+            $contact->title = $validatedData['title'];
+            $contact->ph_no = $validatedData['phone_number'];
+            $contact->interested_services = implode(",", $validatedData['interested_services']);
+            $contact->attachment_links = $validatedData['attachment_link'];
+            $contact->message = $validatedData['message'];
+
+            $mailData["name"] = $validatedData['full_name'];
+            $mailData["type"] = "contact";
+            $mailData["subject"] = "We've Received Your Inquiry at RS TekSolutions";
+
+            $mailSent = Mail::to($validatedData['email'])
+                ->send(new ContactFormMail($mailData));
+
+            $mailSent2 = Mail::to($this->bccEmail)->send(new ContactAdminSubmission($validatedData));
+
+            if ($mailSent && $mailSent2) {
+                if ($contact->save()) {
+                    return redirect()->route('website.contact')
+                        ->with('success', "Thank you for reaching out! Your message is on its way to our team. We're excited to connect and will be in touch shortly");
+                } else {
+                    return redirect()->route('website.contact')
+                        ->with('error', 'Something went wrong. Kindly try again');
+                }
             } else {
+                // Email sending failed
                 return redirect()->route('website.contact')
-                    ->with('error', 'Something went wrong. Kindly try again');
+                    ->with('error', 'Failed to send email. Kindly try again');
             }
         } else {
-            // Email sending failed
-            return redirect()->route('website.contact')
-                ->with('error', 'Failed to send email. Kindly try again');
+            return redirect()->back()->with('gcaptcha', 'Please Complete the Recaptcha to proceed')->withInput();
         }
     }
 
@@ -192,48 +216,71 @@ class WebsiteController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $validatedData = $validator->validated();
+        $recaptcha_response = $request->input('g-recaptcha-response');
 
-        if (in_array("Others", $validatedData['selected_services'])) {
-            $validatedData['selected_services'] = array_merge(array_diff($validatedData['selected_services'], array("Others")), array($validatedData['other_text']));
+        if (is_null($recaptcha_response)) {
+            return redirect()->back()->with('gcaptcha', 'Please Complete the Recaptcha to proceed')->withInput();
         }
 
-        $solution = new Solution();
-        $solution->name = $validatedData['full_name'];
-        $solution->email = $validatedData['email'];
-        $solution->company_name = $validatedData['company'];
-        $solution->title = $validatedData['title'];
-        $solution->ph_no = $validatedData['phone_number'];
-        $solution->selected_services = implode(",", $validatedData['selected_services']);
-        $solution->project_description = $validatedData['project_description'];
-        $solution->estimated_timeline = $validatedData['estimated_timeline'];
-        $solution->company_size = $validatedData['company_size'];
-        $solution->additional_comments = $validatedData['additional_comments'];
+        $url = "https://www.google.com/recaptcha/api/siteverify";
 
-        $mailData["name"] = $validatedData['full_name'];
-        $mailData["title"] = $validatedData['title'];
-        $mailData["type"] = "solution";
-        $mailData["subject"] = "We've Received Your Inquiry at RS TekSolutions";
+        $body = [
+            'secret' => config('services.recaptcha.secret'),
+            'response' => $recaptcha_response,
+            'remoteip' => IpUtils::anonymize($request->ip()) //anonymize the ip to be GDPR compliant. Otherwise just pass the default ip address
+        ];
+
+        $response = Http::asForm()->post($url, $body);
+
+        $result = json_decode($response);
+
+        if ($response->successful() && $result->success == true) {
+
+            $validatedData = $validator->validated();
+
+            if (in_array("Others", $validatedData['selected_services'])) {
+                $validatedData['selected_services'] = array_merge(array_diff($validatedData['selected_services'], array("Others")), array($validatedData['other_text']));
+            }
+
+            $solution = new Solution();
+            $solution->name = $validatedData['full_name'];
+            $solution->email = $validatedData['email'];
+            $solution->company_name = $validatedData['company'];
+            $solution->title = $validatedData['title'];
+            $solution->ph_no = $validatedData['phone_number'];
+            $solution->selected_services = implode(",", $validatedData['selected_services']);
+            $solution->project_description = $validatedData['project_description'];
+            $solution->estimated_timeline = $validatedData['estimated_timeline'];
+            $solution->company_size = $validatedData['company_size'];
+            $solution->additional_comments = $validatedData['additional_comments'];
+
+            $mailData["name"] = $validatedData['full_name'];
+            $mailData["title"] = $validatedData['title'];
+            $mailData["type"] = "solution";
+            $mailData["subject"] = "We've Received Your Inquiry at RS TekSolutions";
 
 
 
-        $mailSent = Mail::to($validatedData['email'])
-            ->send(new ContactFormMail($mailData));
+            $mailSent = Mail::to($validatedData['email'])
+                ->send(new ContactFormMail($mailData));
 
-        $mailSent2 = Mail::to($this->bccEmail)->send(new solutionFormAdmin($validatedData));
+            $mailSent2 = Mail::to($this->bccEmail)->send(new solutionFormAdmin($validatedData));
 
-        if ($mailSent && $mailSent2) {
-            if ($solution->save()) {
-                return redirect()->route('website.forms.solution-form')
-                ->with('success', "Success! Your inquiry has been submitted. Our software testing experts will review your needs and get back to you promptly to discuss tailored solutions that ensure your project's quality and efficiency.");
+            if ($mailSent && $mailSent2) {
+                if ($solution->save()) {
+                    return redirect()->route('website.forms.solution-form')
+                        ->with('success', "Success! Your inquiry has been submitted. Our software testing experts will review your needs and get back to you promptly to discuss tailored solutions that ensure your project's quality and efficiency.");
+                } else {
+                    return redirect()->route('website.forms.solution-form')
+                        ->with('error', 'Something went wrong. Kindly try again');
+                }
             } else {
+                // Email sending failed
                 return redirect()->route('website.forms.solution-form')
-                ->with('error', 'Something went wrong. Kindly try again');
+                    ->with('error', 'Failed to send email. Kindly try again');
             }
         } else {
-            // Email sending failed
-            return redirect()->route('website.forms.solution-form')
-                ->with('error', 'Failed to send email. Kindly try again');
+            return redirect()->back()->with('gcaptcha', 'Please Complete the Recaptcha to proceed')->withInput();
         }
     }
 

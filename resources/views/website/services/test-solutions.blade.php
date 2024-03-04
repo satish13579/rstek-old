@@ -135,6 +135,6 @@
             <h3>Precision in <b>testing</b>, perfection in <b>performance</b></h3>
             <p class="paragraph">Where quality is the destination, thorough testing is the journey.</p>
             <br/>
-            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.contact') }}">Connect with us</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.forms.solution-form') }}">Connect with us</a>
         </div>
 @endsection

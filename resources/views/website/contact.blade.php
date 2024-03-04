@@ -10,12 +10,12 @@
     <div style="margin-bottom:0px;" class="section page-content-section">
         <div class="container">
             <!-- <div class="row">
-                            <div class="col-12">
-                                <div class="body-content">
-                                    <h1 class="rp-page-header-two">Contact <span class="half-page-header">Us</span></h1>
-                                </div>
-                            </div>
-                        </div> -->
+                                            <div class="col-12">
+                                                <div class="body-content">
+                                                    <h1 class="rp-page-header-two">Contact <span class="half-page-header">Us</span></h1>
+                                                </div>
+                                            </div>
+                                        </div> -->
             <div class="row rp-form-container">
                 <div class="col-md-5 rp-form-color">
                     <h2>Where Vision Meets Execution. <br /><br /><b>Contact Us</b> to Transform <b>Your Ideas</b> into
@@ -101,12 +101,12 @@
                             </div>
                         </div>
                         <p
-                                        style="font-weight:700;text-align: start;padding:.375rem .75rem;margin-bottom:8px;color:#666666b5;">
-                                        Interested Service *</p>
+                            style="font-weight:700;text-align: start;padding:.375rem .75rem;margin-bottom:8px;color:#666666b5;">
+                            Interested Service *</p>
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="">
-                                    
+
                                     <label class="checkbox-wrap-container">
                                         <input type="checkbox" name="interested_services[]" value="Test Solutions"
                                             {{ in_array('Test Solutions', old('interested_services', [])) ? 'checked' : '' }}>Test
@@ -187,8 +187,13 @@
                                 @enderror
                             </div>
                         </div>
-
-                        <br /><br />
+                        <!-- Google Recaptcha -->
+                        <div style="width: 304px; height: 78px;" class="g-recaptcha mt-4" data-sitekey={{ config('services.recaptcha.key') }}></div>
+                        @if (session('gcaptcha'))
+                            <div class="text-danger mt-2">
+                                {{ session('gcaptcha') }}
+                            </div>
+                        @endif
                         <p class="rp-para-one">
                             <span class="rp-custom-btn-container">
                                 <button style="display: flex;align-items:center;gap:10px;" type="submit" name="sub_btn"
@@ -210,7 +215,7 @@
                     @endif
                 </div>
             </div>
-            <br />
+            <br id="scrollele" />
         </div>
     @endsection
 
@@ -242,9 +247,18 @@
                     });
                 }
 
+                var firstError = document.querySelector('.text-danger.mt-2');
+                if (firstError) {
+                    firstError.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+
                 var successMessage = document.querySelector('.alert.alert-success');
                 if (successMessage) {
-                    successMessage.scrollIntoView({
+                    var scrollele = document.getElementById('scrollele');
+                    scrollele.scrollIntoView({
                         behavior: 'smooth',
                         block: 'end'
                     })

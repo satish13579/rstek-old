@@ -124,6 +124,6 @@
             <p class="paragraph">Join us on this journey of mutual success. Let's explore how our
                 shared values and services can synergize to redefine and elevate the QA landscape.
                 Together, we can achieve more.</p>
-            <a class="btn animated-rp-btn animated-rp-btn-secondary">Connect with us</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.contact') }}">Connect with us</a>
         </div>
 @endsection

@@ -82,6 +82,6 @@
             <h3>Your software has a <b>story</b>. We help the world <b>read it</b></h3>
             <p class="paragraph">Because the best products deserve recognition - let's introduce your software to its audience.</p>
             <br/>
-            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.contact') }}">Connect with us</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.forms.marketing-form') }}">Connect with us</a>
         </div>
 @endsection

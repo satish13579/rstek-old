@@ -4,7 +4,7 @@
 4. added perfect validation for all fields in form of "/contact" route and scrolls into error view if validation fails
 5. scrolls into success message for successful form submission in "/contact" route
 6. sends email to admin for successful submission with all details in a neat template in form of "/contact" route
-7. removed contact no beside form in "/contact" route
+7. removed contact number beside form in "/contact" route
 8. removed gap after the footer in "/contact" route
 9. removed mobile number from header black bar
 10. added linkedin url for linkedin icon , onclick on this icon the linkedin page will open in new tab
@@ -12,3 +12,12 @@
 12. changed email from operations to consulting in header black bar
 13. added please wait loader after submitting form in "/cotact" route
 14. changed placeholder for attachment links section with given placeholder in "/contacts" route
+15. changed the solution form structure and added astricks for all required fields
+16. sends email to admin for solution form submission
+17. on click of solutions tab in navbar redirects to "test-solutions" page
+18. added subdropdown for test solutions link in services tab in navbar
+19. removed extra margin after footer in contact page
+20. removed extra padding to right side of page in "talent-hiring","market-porduct","qa-automation-trainings" pages in services tab
+21. make the connect with us button consistent on all pages above the footer and matched the link with relavent page form links
+22. make navbar tabs active corresponding to the page they are in
+23. added google captcha in contact and solution forms

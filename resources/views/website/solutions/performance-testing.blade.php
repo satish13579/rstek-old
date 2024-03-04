@@ -169,6 +169,6 @@
                 experts and discuss how we can transform your digital presence into a high-performing powerhouse. Your
                 customers deserve nothing less!</p>
             <br />
-            <a class="btn animated-rp-btn animated-rp-btn-secondary">Connect with us</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary"  href="{{ route('website.forms.solution-form') }}">Connect with us</a>
         </div>
 @endsection

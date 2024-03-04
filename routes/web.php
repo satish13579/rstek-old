@@ -67,6 +67,7 @@ Route::middleware(['guest'])->group(function() {
     Route::post('/contact', [WebsiteController::class, 'saveContact'])->name('website.contact.store');
     Route::get('/partner-with-us', [WebsiteController::class, 'partnership'])->name('website.partnership');
     Route::prefix('solutions')->group(function () {
+        Route::get('/', [WebsiteController::class, 'testSolutions'])->name('website.solutions');
         Route::get('/ui-testing', [WebsiteController::class, 'uiTesting'])->name('website.ui-testing');
         Route::get('/mobile-testing', [WebsiteController::class, 'mobileTesting'])->name('website.mobile-testing');
         Route::get('/performance-testing', [WebsiteController::class, 'performanceTesting'])->name('website.performance-testing');
@@ -81,11 +82,17 @@ Route::middleware(['guest'])->group(function() {
     });
     Route::prefix('services')->group(function () {
         Route::get('/test-solutions', [WebsiteController::class, 'testSolutions'])->name('website.test-solutions');
+            Route::get('/ui-testing', [WebsiteController::class, 'uiTesting'])->name('website.services-ui-testing');
+            Route::get('/mobile-testing', [WebsiteController::class, 'mobileTesting'])->name('website.services-mobile-testing');
+            Route::get('/performance-testing', [WebsiteController::class, 'performanceTesting'])->name('website.services-performance-testing');
+            Route::get('/api-testing', [WebsiteController::class, 'apiTesting'])->name('website.services-api-testing');
+            Route::get('/test-plan', [WebsiteController::class, 'testPlan'])->name('website.services-test-plan');
         Route::get('/talent-hiring', [WebsiteController::class, 'talentHiring'])->name('website.talent-hiring');
         Route::get('/market-yourself', [WebsiteController::class, 'marketYourself'])->name('website.market-yourself');
         Route::get('/qa-training', [WebsiteController::class, 'qaTraining'])->name('website.qa-training');
     });
     Route::get('/career', [WebsiteController::class, 'career'])->name('website.career');
+    
     Route::get('/submission-guidelines', [WebsiteController::class, 'submissionGuidelines'])->name('website.submission-guidelines');
     Route::get('/editorial-policy', [WebsiteController::class, 'editorialPolicy'])->name('website.editorial-policy');
 

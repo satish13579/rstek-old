@@ -236,8 +236,8 @@
                                                 <div class="checkmark-custom"></div>
                                             </label>
                                             <label class="checkbox-wrap-container">
-                                                <input id="others-select" class="form-control" type="checkbox" name="selected_services[]"
-                                                    value="Others"
+                                                <input id="others-select" class="form-control" type="checkbox"
+                                                    name="selected_services[]" value="Others"
                                                     {{ in_array('Others', old('selected_services', [])) ? 'checked' : '' }}>Others<br>
                                                 <div class="checkmark-custom"></div>
                                             </label>
@@ -246,7 +246,8 @@
                                             <div class="text-danger pl-1">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div style="margin-block: 20px!important;" id="other-text-container" class="rp-hidden-form">
+                                    <div style="margin-block: 20px!important;" id="other-text-container"
+                                        class="rp-hidden-form">
                                         <div class="form-row">
                                             <div class="col-md-12">
                                                 <input id="other_text" type="text" name="other_text"
@@ -265,7 +266,8 @@
 
                                     <div class="form-row">
                                         <div class="col-md-6">
-                                            <input type="text" name="estimated_timeline" value="{{ old('estimated_timeline') }}"
+                                            <input type="text" name="estimated_timeline"
+                                                value="{{ old('estimated_timeline') }}"
                                                 placeholder="Estimated Timeline *" class="form-control shadow-none"
                                                 required>
                                             @error('estimated_timeline')
@@ -273,8 +275,8 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" name="company_size" value="{{ old('company_size') }}" placeholder="Company Size *"
-                                                class="form-control shadow-none" required>
+                                            <input type="text" name="company_size" value="{{ old('company_size') }}"
+                                                placeholder="Company Size *" class="form-control shadow-none" required>
                                             @error('company_size')
                                                 <div class="text-danger pl-1">{{ $message }}</div>
                                             @enderror
@@ -282,15 +284,24 @@
 
                                     </div>
                                     <div class="form-group">
-                                        <textarea name="additional_comments" value="{{ old('additional_comments') }}" placeholder="Additional Comments" class="form-control shadow-none"
-                                            rows="3"></textarea>
+                                        <textarea name="additional_comments" value="{{ old('additional_comments') }}" placeholder="Additional Comments"
+                                            class="form-control shadow-none" rows="3"></textarea>
                                         @error('additional_comments')
                                             <div class="text-danger pl-1">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <!-- Google Recaptcha -->
+                                    <div class="g-recaptcha mt-4" data-sitekey={{ config('services.recaptcha.key') }}>
+                                    </div>
+                                    @if (session('gcaptcha'))
+                                        <div class="text-danger mt-2">
+                                            {{ session('gcaptcha') }}
+                                        </div>
+                                    @endif
                                     <p style="margin-bottom: 0px;" id="submit-btn-container" class="rp-para-one">
                                         <span class="rp-custom-btn-container">
-                                            <button style="display: flex;align-items:center;gap:10px;" name="sub_btn" id="submitBtn" type="submit" class="btn btn-rp-grad">Submit</button>
+                                            <button style="display: flex;align-items:center;gap:10px;" name="sub_btn"
+                                                id="submitBtn" type="submit" class="btn btn-rp-grad">Submit</button>
                                         </span>
                                     </p>
                                 </div>
@@ -312,7 +323,7 @@
                     </div>
                 </div>
             </div>
-            <br />
+            <br id="scrollele" />
         </div>
     @endsection
 
@@ -351,44 +362,6 @@
                 }, 2000);
             });
 
-            $('#solutionPageForm').submit(function(e) {
-                e.preventDefault();
-                var form = $(this);
-                var url = "{{ route('website.forms.save-solution-form') }}";
-                var data = form.serialize();
-                var btn = $('#submitBtn');
-                btn.prop('disabled', true);
-                btn.html('Please wait...');
-
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: data,
-                    dataType: 'json',
-                    headers: {
-                        'Accept': 'application/json'
-                    },
-                    success: function(response) {
-                        btn.prop('disabled', false);
-                        btn.html('Submit');
-                        console.log(response);
-                        if (response.success) {
-                            form[0].reset();
-                            $('#alertMsg').html('<div class="alert alert-success">' + response.success +
-                                '</div>');
-                        } else {
-                            $('#alertMsg').html('<div class="alert alert-danger">' + response.success +
-                                '</div>');
-                        }
-                    },
-                    error: function(error) {
-                        btn.prop('disabled', false);
-                        btn.html('Submit');
-                        alert('An error occurred. Please try again later.');
-                    }
-                });
-            });
-
             document.addEventListener('DOMContentLoaded', function() {
                 // Scroll to the first error if there are any
                 var firstError = document.querySelector('.text-danger.pl-1');
@@ -399,19 +372,28 @@
                     });
                 }
 
+                var firstError = document.querySelector('.text-danger.mt-2');
+                if (firstError) {
+                    firstError.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+
                 var successMessage = document.querySelector('.alert.alert-success');
                 if (successMessage) {
-                    successMessage.scrollIntoView({
+                    var scrollele = document.getElementById('scrollele');
+                    scrollele.scrollIntoView({
                         behavior: 'smooth',
                         block: 'end'
                     })
                 }
 
-                $("#others-select").on('change',function(e){
-                    if(e.target.checked){
+                $("#others-select").on('change', function(e) {
+                    if (e.target.checked) {
                         $('#other-text-container').show();
                         $('#other_text').prop('required', true);
-                    }else{
+                    } else {
                         $('#other-text-container').hide();
                         $('#other_text').prop('required', false);
                     }

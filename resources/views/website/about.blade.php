@@ -96,7 +96,7 @@
             <h3>Let's Explore Together</h3>
             <p class="paragraph">We don’t just consult; we innovate, we integrate, we inspire. Your digital
                 transformation journey begins here.</p>
-            <a class="btn animated-rp-btn animated-rp-btn-secondary">Connect with us</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.contact') }}">Connect with us</a>
         </div>
         
 @endsection

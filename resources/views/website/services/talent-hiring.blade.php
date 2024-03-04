@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div style="margin-right:0px;" class="row effective-api-testing">
+        <div class="row effective-api-testing">
             <div class="col-md-12 test-plan-list">
                 <h3>Why <span class="half-header">Hire</span> with us?</h3>
                 <ul>
@@ -73,6 +73,6 @@
             <h3>We don't just hire <b>testers</b>; we invest in architects of <b>assurance</b></h3>
             <p class="paragraph">Be part of a team that values precision, performance, and passion for quality.</p>
             <br/>
-            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.contact')}}">Connect with us</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.forms.hiring-form') }}">Connect with us</a>
         </div>
 @endsection

@@ -156,6 +156,6 @@
                 how we can optimize your user interfaces. Don't let UI issues hold you back—let us pave the way
                 for success!</p>
             <br/>
-            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.contact')}}">Connect with us</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.forms.solution-form') }}">Connect with us</a>
         </div>
 @endsection

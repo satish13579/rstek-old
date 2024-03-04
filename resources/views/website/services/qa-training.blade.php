@@ -150,6 +150,6 @@
             <h3>Elevate your <b>QA skills</b> to match the pace of <b>innovation</b></h3>
             <p class="paragraph">Where quality is taught as a craft, and testing as an art.</p>
             <br />
-            <a class="btn animated-rp-btn animated-rp-btn-secondary">Connect with us</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.contact') }}">Connect with us</a>
         </div> 
 @endsection

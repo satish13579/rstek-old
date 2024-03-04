@@ -192,3 +192,4 @@
     </footer>
 </div>
 @endif
+<script async src="https://www.google.com/recaptcha/api.js">// Add recaptcha script

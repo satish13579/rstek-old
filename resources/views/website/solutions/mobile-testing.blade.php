@@ -172,6 +172,6 @@
                 customers coming back for more. Trust RSTek Solutions to ensure that your mobile application is
                 flawless, reliable, and ready to conquer the digital world.</p>
             <br />
-            <a class="btn animated-rp-btn animated-rp-btn-secondary">Take action now</a>
+            <a class="btn animated-rp-btn animated-rp-btn-secondary" href="{{ route('website.forms.solution-form') }}">Connect with us</a>
         </div>
 @endsection

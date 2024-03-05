@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home1/jntucoll/public_html/newtutor/rstek/
+    - /bin/cp * $DEPLOYPATH

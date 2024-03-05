@@ -188,7 +188,7 @@
                             </div>
                         </div>
                         <!-- Google Recaptcha -->
-                        <div style="width: 304px; height: 78px;" class="g-recaptcha mt-4" data-sitekey={{ config('services.recaptcha.key') }}></div>
+                        <div style="width: 304px; height: 78px;" class="g-recaptcha mt-4"  data-sitekey={{ config('services.recaptcha.key') }}></div>
                         @if (session('gcaptcha'))
                             <div class="text-danger mt-2">
                                 {{ session('gcaptcha') }}
